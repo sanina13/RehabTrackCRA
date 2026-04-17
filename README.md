@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# Rehabtrack
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicação web de acompanhamento de recuperação motora, que liga doentes em processo de reabilitação aos seus fisioterapeutas através de uma plataforma digital única.
 
-## Available Scripts
+## Porque é que isto existe
 
-In the project directory, you can run:
+A reabilitação motora é um processo longo, muitas vezes solitário, e onde a adesão aos planos de exercícios em casa é um dos maiores desafios enfrentados pelos profissionais de saúde. Os doentes ficam sem orientação entre consultas, os terapeutas perdem visibilidade sobre o progresso real, e o resultado é uma recuperação mais lenta do que podia ser.
 
-### `npm start`
+O Rehabtrack nasceu para fechar essa lacuna — dar aos doentes uma ferramenta que os acompanha no dia a dia, e aos fisioterapeutas uma visão clara do progresso dos seus pacientes entre sessões presenciais.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Para quem é
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Doentes em recuperação motora** — acesso a planos de exercícios personalizados, registo de sessões feitas em casa, e acompanhamento visual do seu próprio progresso.
 
-### `npm test`
+**Fisioterapeutas e profissionais de saúde** — criação e ajuste de planos de reabilitação, monitorização à distância, e dados concretos para tomar decisões clínicas melhor fundamentadas.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Contexto académico
 
-### `npm run build`
+Este projeto foi desenvolvido no âmbito da unidade curricular de **Tecnologias para a Web e Dispositivos Móveis**, como trabalho de grupo. O foco principal foi o desenvolvimento **frontend**, explorando integração com múltiplas APIs externas e consumo de dados em tempo real.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Arquitetura
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+A aplicação é essencialmente uma **single-page application** que consome dois serviços distintos:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Supabase (API personalizada)
 
-### `npm run eject`
+Backend-as-a-service usado para toda a lógica específica da aplicação:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Autenticação de utilizadores (doentes e profissionais)
+- Gestão de perfis e permissões distintas por tipo de utilizador
+- Planos de reabilitação personalizados
+- Registo de sessões feitas pelos doentes
+- Histórico e progresso ao longo do tempo
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### API Ninjas — Exercises
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+API pública usada para popular o catálogo de exercícios disponíveis:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Biblioteca de exercícios físicos categorizados
+- Filtragem por grupo muscular, tipo e dificuldade
+- Instruções detalhadas para cada exercício
 
-## Learn More
+Esta arquitetura separa claramente os **dados genéricos** (catálogo de exercícios vindo de uma fonte externa) dos **dados específicos da aplicação** (utilizadores, planos, progresso — geridos pela Supabase).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Funcionalidades principais
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Autenticação diferenciada para doentes e fisioterapeutas
+- Pesquisa e filtragem de exercícios via API Ninjas
+- Criação de planos personalizados pelos fisioterapeutas
+- Registo de sessões e exercícios realizados pelos doentes
+- Dashboard de progresso com visualização de dados
+- Interface responsiva adaptada a diferentes dispositivos
 
-### Code Splitting
+## Stack técnico
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Frontend**: *React*
+- **Backend-as-a-Service**: Supabase 
+- **API externa**: [API Ninjas — Exercises](https://api-ninjas.com/api/exercises)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Desafios técnicos interessantes
 
-### Making a Progressive Web App
+- **Orquestração de duas APIs distintas** no mesmo fluxo de utilizador — combinar dados da API Ninjas (exercícios) com dados da Supabase (planos personalizados) de forma coerente
+- **Gestão de estado diferenciado** para dois tipos de utilizadores com permissões e vistas distintas
+- **Design responsivo** para uma aplicação que tanto pode ser usada numa consulta de fisioterapia como em casa pelo doente
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Equipa
 
-### Advanced Configuration
+Projeto desenvolvido em grupo no âmbito da UC de Tecnologias para a Web e Dispositivos Móveis.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+*Tiago Sanina e Miguel Sanina*
 
-### Deployment
+## Estado atual
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Projeto académico entregue como parte da avaliação da unidade curricular.
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*Projeto desenvolvido na Unidade Curricular de Tecnologias para a Web e Dispositivos Móveis.*
