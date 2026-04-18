@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { UserProvider } from './context/AuthContext'
+import { UserProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Registar from './pages/Registar';
@@ -28,18 +29,80 @@ function App() {
             path="/registar/fisioterapeuta"
             element={<RegistarFisioterapeuta />}
           />
-          <Route path="/fisio/dashboard" element={<DashboardFisio />} />
-          <Route path="/fisio/pacientes" element={<Pacientes />} />
-          <Route path="/fisio/pacientes/:id" element={<PerfilPaciente />} />
-          <Route path="/fisio/plano/:id" element={<Plano />} />
-          <Route path="/fisio/biblioteca" element={<Biblioteca />} />
-          <Route path="/paciente/dashboard" element={<DashboardPaciente />} />
-          <Route path="/paciente/plano" element={<PlanoPaciente />} />
+
+          <Route
+            path="/fisio/dashboard"
+            element={
+              <ProtectedRoute tipoPermitido="fisioterapeuta">
+                <DashboardFisio />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/fisio/pacientes"
+            element={
+              <ProtectedRoute tipoPermitido="fisioterapeuta">
+                <Pacientes />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/fisio/pacientes/:id"
+            element={
+              <ProtectedRoute tipoPermitido="fisioterapeuta">
+                <PerfilPaciente />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/fisio/plano/:id"
+            element={
+              <ProtectedRoute tipoPermitido="fisioterapeuta">
+                <Plano />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/fisio/biblioteca"
+            element={
+              <ProtectedRoute tipoPermitido="fisioterapeuta">
+                <Biblioteca />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/paciente/dashboard"
+            element={
+              <ProtectedRoute tipoPermitido="paciente">
+                <DashboardPaciente />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/paciente/plano"
+            element={
+              <ProtectedRoute tipoPermitido="paciente">
+                <PlanoPaciente />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/paciente/exercicio/:id"
-            element={<ExercicioPaciente />}
+            element={
+              <ProtectedRoute tipoPermitido="paciente">
+                <ExercicioPaciente />
+              </ProtectedRoute>
+            }
           />
-          <Route path="/paciente/historico" element={<HistoricoSessoes />} />
+          <Route
+            path="/paciente/historico"
+            element={
+              <ProtectedRoute tipoPermitido="paciente">
+                <HistoricoSessoes />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </UserProvider>
