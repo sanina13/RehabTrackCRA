@@ -1,9 +1,19 @@
-function App() {
+import { useNavigate } from 'react-router-dom';
+
+function Registar() {
+  const navigate = useNavigate();
+  const handleClickPaciente = () => {
+    navigate('/registar/paciente');
+  };
+  const handleClickFisioterapeuta = () => {
+    navigate('/registar/fisioterapeuta');
+  };
   return (
     <div>
-      <h1>Registar</h1>
+      <button onClick={handleClickPaciente}>Paciente</button>
+      <button onClick={handleClickFisioterapeuta}>Fisioterapeuta</button>
     </div>
   );
 }
 
-export default App;
+export default Registar;
