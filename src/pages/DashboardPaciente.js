@@ -1,9 +1,7 @@
-function App() {
-  return (
-    <div>
-      <h1>Dashboard Paciente</h1>
-    </div>
-  );
+import Header from '../components/Header';
+
+function DashboardPaciente() {
+  return <Header></Header>;
 }
 
-export default App;
+export default DashboardPaciente;

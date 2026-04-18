@@ -1,9 +1,17 @@
-function App() {
+import Header from '../components/Header';
+import { useContext } from 'react';
+import { UserContext } from '../context/AuthContext';
+import { Link } from "react-router-dom";
+
+function DashboardFisio() {
+  const { user } = useContext(UserContext);
   return (
     <div>
-      <h1>DashboardFisio</h1>
+      <Header></Header>
+      <h1>Olá, {user.name}</h1>
+      <Link to="/fisio/pacientes">Ver Pacientes</Link>
     </div>
   );
 }
 
-export default App;
+export default DashboardFisio;
