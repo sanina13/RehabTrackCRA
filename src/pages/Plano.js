@@ -1,13 +1,26 @@
 import Header from '../components/Header';
+import ModalExercicio from '../components/ModalExercicio';
 import { supabase } from '../services/supabaseClient';
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Plano() {
   const { id } = useParams();
   const [plano, setPlano] = useState(null);
   const [paciente, setPaciente] = useState(null);
   const [planExercicios, setPlanoExercicios] = useState([]);
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const fetchExercicios = async (planId) => {
+    const { data, error } = await supabase
+      .from('plan_exercises')
+      .select(`*, exercises(*)`)
+      .eq('plan_id', planId);
+    if (!error) {
+      setPlanoExercicios(data);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,21 +43,24 @@ function Plano() {
       }
       // get in plans exercises
       if (data) {
-        const { data: dataPlanExercises, error: errorPlanEx } = await supabase
-          .from('plan_exercises')
-          .select(`*, exercises(*)`)
-          .eq('plan_id', data.id);
-
-        if (!errorPlanEx) {
-          setPlanoExercicios(dataPlanExercises);
-        }
+        fetchExercicios(data.id);
       }
-      console.log('Paciente:', dataPatient, errorPat);
-      console.log('Plano:', data, error);
     };
 
     fetchData();
   }, []);
+
+  // Apagar Plano
+  const handleApagarPlano = async () => {
+    const { data, error } = await supabase
+      .from('plans')
+      .delete()
+      .eq('id', plano.id);
+
+    if (!error) {
+      navigate(`/fisio/pacientes/${id}`);
+    }
+  };
 
   return (
     <div>
@@ -53,14 +69,22 @@ function Plano() {
         <div>
           <h1>Plano do paciente {paciente.name}</h1>
           <p>Exercícios atribuídos ao paciente</p>
-          <Link to={`/`}>Novo Exercicio</Link>
-          <Link to={`/`}>Apagar Plano</Link>
+          <button onClick={() => setModalOpen(true)}>Novo Exercicio</button>
+          <button onClick={handleApagarPlano}>Apagar Plano</button>
+
           {planExercicios.map((item) => (
             <div key={item.id}>
               <p>{item.exercises.name}</p>
             </div>
           ))}
         </div>
+      )}
+      {modalOpen && (
+        <ModalExercicio
+          planId={plano.id}
+          onClose={() => setModalOpen(false)}
+          onExercicioAdicionado={() => fetchExercicios(plano.id)}
+        />
       )}
     </div>
   );

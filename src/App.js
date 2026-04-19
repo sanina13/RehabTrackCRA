@@ -15,6 +15,7 @@ import Pacientes from './pages/Pacientes';
 import Plano from './pages/Plano';
 import PlanoPaciente from './pages/PlanoPaciente';
 import PerfilPaciente from './pages/PerfilPaciente';
+import './App.css'
 
 function App() {
   return (
