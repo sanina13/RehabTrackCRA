@@ -1,9 +1,38 @@
-function App() {
+import Header from '../components/Header';
+import { supabase } from '../services/supabaseClient';
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+
+function PerfilPaciente() {
+  const [paciente, setPaciente] = useState(null);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', id)
+        .single();
+      if (!error) {
+        setPaciente(data);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
-      <h1>Perfil Paciente</h1>
+      <Header></Header>
+      {paciente && (
+        <div>
+          <p>{paciente.name}</p>
+          <Link to={`/fisio/plano/${id}`}>Ver Plano</Link>
+        </div>
+      )}
     </div>
   );
 }
 
-export default App;
+export default PerfilPaciente;
