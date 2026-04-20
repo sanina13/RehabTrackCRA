@@ -33,7 +33,7 @@ function ModalEditarExercicio({
 
   return (
     <div className="overlay" onClick={onClose}>
-      <div className="modal-exercicio" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-apagar-plano" onClick={(e) => e.stopPropagation()}>
         <h2>Editar exercício</h2>
         <p>Repetições</p>
         <input
