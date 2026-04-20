@@ -2,7 +2,7 @@ import { supabase } from '../services/supabaseClient';
 import { useState } from 'react';
 
 function ModalEditarExercicio({
-  planoExerciseId,
+  planExerciseId,
   repeticoesAtual,
   setsAtual,
   duracaoAtual,
@@ -24,7 +24,7 @@ function ModalEditarExercicio({
         duration: duracao,
         instruction: instrucao,
       })
-      .eq('id', planoExerciseId);
+      .eq('id', planExerciseId);
     if (!error) {
       onEditado();
       onClose();
@@ -58,8 +58,10 @@ function ModalEditarExercicio({
           value={instrucao}
           onChange={(e) => setInstrucao(e.target.value)}
         />
-        <button onClick={onClose}>Cancelar</button>
-        <button onClick={handleEdit}>Guardar alterações</button>
+        <div>
+          <button onClick={onClose}>Cancelar</button>
+          <button onClick={handleEdit}>Guardar alterações</button>
+        </div>
       </div>
     </div>
   );

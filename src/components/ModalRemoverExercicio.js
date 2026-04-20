@@ -21,7 +21,7 @@ function ModalRemoverExercicio({ planExerciseId, onClose }) {
         </p>
         <p>Esta ação não pode ser desfeita</p>
         <button onClick={onClose}>Cancelar</button>
-        <button onClick={handleDelete}></button>
+        <button onClick={handleDelete}>Remover</button>
       </div>
     </div>
   );
