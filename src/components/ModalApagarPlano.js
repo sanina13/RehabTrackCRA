@@ -13,7 +13,7 @@ function ModalApagarPlano({ planoId, onClose }) {
       .eq('id', planoId);
 
     if (!error) {
-      navigate(`/fisio/pacientes/${id}`);
+      navigate(`/fisio/pacientes/${id}`, { replace: true });
     }
   };
 

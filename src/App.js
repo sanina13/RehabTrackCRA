@@ -10,12 +10,13 @@ import DashboardPaciente from './pages/DashboardPaciente';
 import DashboardFisio from './pages/DashboardFisio';
 import Biblioteca from './pages/Biblioteca';
 import ExercicioPaciente from './pages/ExercicioPaciente';
+import ExercicioFisio from './pages/ExercicioFisio';
 import HistoricoSessoes from './pages/HistoricoSessoes';
 import Pacientes from './pages/Pacientes';
 import Plano from './pages/Plano';
 import PlanoPaciente from './pages/PlanoPaciente';
 import PerfilPaciente from './pages/PerfilPaciente';
-import './App.css'
+import './App.css';
 
 function App() {
   return (
@@ -60,6 +61,14 @@ function App() {
             element={
               <ProtectedRoute tipoPermitido="fisioterapeuta">
                 <Plano />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/fisio/exercicio/:id"
+            element={
+              <ProtectedRoute tipoPermitido="fisioterapeuta">
+                <ExercicioFisio />
               </ProtectedRoute>
             }
           />

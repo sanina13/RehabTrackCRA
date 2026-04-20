@@ -3,7 +3,8 @@ import ModalExercicio from '../components/ModalExercicio';
 import ModalApagarPlano from '../components/ModalApagarPlano'
 import { supabase } from '../services/supabaseClient';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import BotaoVoltar from "../components/BotaoVoltar"
 
 function Plano() {
   const { id } = useParams();
@@ -59,6 +60,7 @@ function Plano() {
   return (
     <div>
       <Header></Header>
+      <BotaoVoltar></BotaoVoltar>
       {paciente && plano && (
         <div>
           <h1>Plano do paciente {paciente.name}</h1>
@@ -69,6 +71,7 @@ function Plano() {
           {planExercicios.map((item) => (
             <div key={item.id}>
               <p>{item.exercises.name}</p>
+              <Link to={`/fisio/exercicio/${item.id}`}>Ver</Link>
             </div>
           ))}
         </div>
