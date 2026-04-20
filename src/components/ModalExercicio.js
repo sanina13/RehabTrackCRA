@@ -21,7 +21,7 @@ function ModalExercicio({ planId, onClose, onExercicioAdicionado }) {
   }, []);
 
   const handleAdicionar = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('plan_exercises')
       .select('*')
       .eq('plan_id', planId)

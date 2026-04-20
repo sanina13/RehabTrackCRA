@@ -1,16 +1,21 @@
 import Header from '../components/Header';
 import ModalExercicio from '../components/ModalExercicio';
+import ModalApagarPlano from '../components/ModalApagarPlano'
 import { supabase } from '../services/supabaseClient';
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 function Plano() {
   const { id } = useParams();
   const [plano, setPlano] = useState(null);
   const [paciente, setPaciente] = useState(null);
   const [planExercicios, setPlanoExercicios] = useState([]);
-  const navigate = useNavigate();
+
+  // modal adicionarExercicio
   const [modalOpen, setModalOpen] = useState(false);
+
+  //modal ApagarExercicio
+  const [modalApagarOpen, setModalApagarOpen] = useState(false);
 
   const fetchExercicios = async (planId) => {
     const { data, error } = await supabase
@@ -50,17 +55,6 @@ function Plano() {
     fetchData();
   }, []);
 
-  // Apagar Plano
-  const handleApagarPlano = async () => {
-    const { data, error } = await supabase
-      .from('plans')
-      .delete()
-      .eq('id', plano.id);
-
-    if (!error) {
-      navigate(`/fisio/pacientes/${id}`);
-    }
-  };
 
   return (
     <div>
@@ -70,7 +64,7 @@ function Plano() {
           <h1>Plano do paciente {paciente.name}</h1>
           <p>Exercícios atribuídos ao paciente</p>
           <button onClick={() => setModalOpen(true)}>Novo Exercicio</button>
-          <button onClick={handleApagarPlano}>Apagar Plano</button>
+          <button onClick={() => setModalApagarOpen(true)}>Apagar Plano</button>
 
           {planExercicios.map((item) => (
             <div key={item.id}>
@@ -84,6 +78,12 @@ function Plano() {
           planId={plano.id}
           onClose={() => setModalOpen(false)}
           onExercicioAdicionado={() => fetchExercicios(plano.id)}
+        />
+      )}
+      { modalApagarOpen &&  (
+        <ModalApagarPlano
+          planoId={plano.id}
+          onClose={() => setModalApagarOpen(false)}
         />
       )}
     </div>

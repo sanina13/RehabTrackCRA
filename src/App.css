@@ -18,3 +18,12 @@
   max-height: 80vh;
   overflow-y: auto;
 }
+
+.modal-apagar-plano {
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  width: 400px;
+  max-height: 40vh;
+  overflow-y: auto;
+}
