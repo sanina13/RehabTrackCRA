@@ -1,4 +1,4 @@
-function App() {
+function PlanoPaciente() {
   return (
     <div>
       <h1>Plano paciente</h1>
@@ -6,4 +6,4 @@ function App() {
   );
 }
 
-export default App;
+export default PlanoPaciente;
