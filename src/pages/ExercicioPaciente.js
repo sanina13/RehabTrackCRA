@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
 import BotaoVoltar from "../components/BotaoVoltar"
 import Header from '../components/Header';
+import ModalFeedback from '../components/ModalFeedback';
 import { supabase } from '../services/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,14 +17,14 @@ function ExercicioPaciente() {
   const[completedSets, setCompletedSets] = useState(0)
 
   useEffect(() => {
-   
+
     const fetchData = async () => {
       const {data, error} = await supabase
       .from('plan_exercises')
       .select('*, exercises(*)')
       .eq('id', id)
       .single()
-      
+
       if(data){
         setExercicio(data)
         setCompletedSets(data.completed_sets)
@@ -32,8 +33,8 @@ function ExercicioPaciente() {
         .from('plan_exercises')
         .select('*, exercises(*)')
         .eq('plan_id', data.plan_id);
-        
-        
+
+
         if(exercisesData){
           setExercicioTotal(exercisesData.length)
         }
@@ -44,7 +45,7 @@ function ExercicioPaciente() {
   }, [id])
 
   const handleIniciar = () => {
-    setInicio(Date.now()) 
+    setInicio(Date.now())
     setExercicioIniciado(true)
   }
 
@@ -64,7 +65,7 @@ function ExercicioPaciente() {
 
     setCompletedSets(prev => prev + 1)
 
-    if(newValue >= exercicio?.sets){
+    if(newValue >= Number(exercicio?.sets)){
       setModalFeedbackAberto(true)
     }else{
       setExercicioIniciado(false)
@@ -106,7 +107,16 @@ function ExercicioPaciente() {
         ) : (
         <button onClick={handleConcluirSerie}>Concluir série</button>
       )}
-      
+
+      {modalFeedbackAberto && (
+        <ModalFeedback
+          planExercise={id}
+          inicio={inicio}
+          onClose={handleFecharModal}
+          repeticoes={exercicio?.repetitions}
+        />
+      )}
+
     </div>
   );
 }
