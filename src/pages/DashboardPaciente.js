@@ -31,29 +31,14 @@ function DashboardPaciente() {
           .select('*')
           .eq('plan_id', data.id);
         setAmountExercise(exercises.length);
+        setCompletedExercises(
+          exercises.filter((ex) => ex.exercises_completed === true).length,
+        );
       }
     };
 
     fetchData();
   }, [user.id]);
-
-  useEffect(() => {
-    const fetchDataProgress = async () => {
-      const { data, error } = await supabase
-        .from('plans')
-        .select('*')
-        .eq('patient_id', user.id)
-        .single();
-
-      const { data: exercises } = await supabase
-        .from('plan_exercises')
-        .select('*')
-        .eq('plan_id', data.id)
-        .eq('exercise_completed', true);
-      setCompletedExercises(exercises.length);
-    };
-    fetchDataProgress();
-  }, []);
 
   const handleClick = () => {
     navigate('/paciente/plano');
