@@ -4,7 +4,7 @@ function CardProgress({
   progressPercentage,
 }) {
   return (
-    <div className="card shadow rounded p-4 text-center">
+    <div className="card h-100 shadow rounded p-4 text-center">
       <div className="card-body">
         <h2>Progresso</h2>
         <div

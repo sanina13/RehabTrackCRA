@@ -11,6 +11,9 @@ function DashboardPaciente() {
   const [currentPlan, setCurrentPlan] = useState({});
   const [amountExercises, setAmountExercise] = useState(0);
   const [completedExercises, setCompletedExercises] = useState(0);
+  const [dateSession, setDateSession] = useState('');
+  const [duration, setDuration] = useState(0);
+  const [sessions, setSessions] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,10 +33,31 @@ function DashboardPaciente() {
           .from('plan_exercises')
           .select('*')
           .eq('plan_id', data.id);
+        if (!exercises) {
+          return;
+        }
+        const exerciseIds = exercises.map((ex) => ex.id);
+        const { data: lastSession } = await supabase
+          .from('sessions')
+          .select('*')
+          .in('plan_exercise_id', exerciseIds)
+          .order('date', { ascending: false })
+          .limit(1)
+          .single();
+        const { data: allSessions } = await supabase
+          .from('sessions')
+          .select('*')
+          .in('plan_exercise_id', exerciseIds);
+
+        setSessions(allSessions.length);
         setAmountExercise(exercises.length);
         setCompletedExercises(
-          exercises.filter((ex) => ex.exercises_completed === true).length,
+          exercises.filter((ex) => ex.exercise_completed === true).length,
         );
+        if (lastSession) {
+          setDateSession(lastSession.date);
+          setDuration(lastSession.duration);
+        }
       }
     };
 
@@ -42,6 +66,10 @@ function DashboardPaciente() {
 
   const handleClick = () => {
     navigate('/paciente/plano');
+  };
+
+  const handleClickHistorico = () => {
+    navigate('/paciente/historico');
   };
 
   return (
@@ -70,6 +98,29 @@ function DashboardPaciente() {
                   ? (completedExercises / amountExercises) * 100
                   : 0
               }
+            />
+          </div>
+          <div className="col-md-6">
+            <Card
+              title={'Última Sessão'}
+              name={dateSession}
+              description={
+                completedExercises +
+                ' de ' +
+                amountExercises +
+                ' exercícios concluídos'
+              }
+              extraInfo={'Duração: ' + duration + ' min'}
+            />
+          </div>
+
+          <div className="col-md-6">
+            <Card
+              title={'Histórico'}
+              name={sessions + ' sessões realizadas'}
+              extraInfo={'Última: ' + dateSession}
+              buttonText={'Ver Histórico ->'}
+              onClick={handleClickHistorico}
             />
           </div>
         </div>

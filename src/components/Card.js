@@ -1,6 +1,6 @@
 function Card({ title, name, description, extraInfo, buttonText, onClick }) {
   return (
-    <div className="card shadow rounded p-4">
+    <div className="card h-100 shadow rounded p-4">
       <div className="card-body">
         <h2 className="card-title mb-3">{title}</h2>
 
