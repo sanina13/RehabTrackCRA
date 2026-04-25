@@ -6,15 +6,15 @@ function ModalFeedback({ planExerciseId, inicio, onClose, repeticoes }) {
   const [notas, setNotas] = useState('');
 
   const handleSubmit = async () => {
-    const duration = Math.round((Date.now() - inicio) / 60000);
+    const durationFeed = Math.max(1, Math.round((Date.now() - inicio) / 60000));
     const { error } = await supabase.from('sessions').insert([
       {
         plan_exercise_id: planExerciseId,
         date: new Date().toISOString().split('T')[0],
-        repetitions_done: repeticoes,
+        repetitions_done: Number(repeticoes),
         difficulty_feedback: dificuldade,
         notes: notas,
-        duration: duration,
+        duration: durationFeed,
       },
     ]);
     if (error) {
