@@ -65,8 +65,13 @@ function PlanoPaciente() {
             description={
               item.sets + ' séries - ' + item.repetitions + ' repetições'
             }
-            buttonText={'Começar ->'}
-            onClick={() => navigate(`/paciente/exercicio/${item.id}`)}
+            extraInfo={item.exercise_completed ? '✓ Concluído' : ''}
+            buttonText={item.exercise_completed ? null : 'Começar ->'}
+            onClick={
+              item.exercise_completed
+                ? null
+                : () => navigate(`/paciente/exercicio/${item.id}`)
+            }
           />
         </div>
       ))}
