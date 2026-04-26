@@ -6,6 +6,7 @@ function ModalFeedback({
   inicio,
   onClose,
   repeticoes,
+  setsFeitos,
   totalSets,
 }) {
   const [dificuldade, setDificuldade] = useState(3);
@@ -38,8 +39,8 @@ function ModalFeedback({
     const { error: errorUpdateSets } = await supabase
       .from('plan_exercises')
       .update({
-        exercise_completed: true,
-        completed_sets: totalSets,
+        exercise_completed: setsFeitos >= totalSets,
+        completed_sets: setsFeitos,
       })
       .eq('id', planExerciseId);
 

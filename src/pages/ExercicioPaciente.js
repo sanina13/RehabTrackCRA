@@ -14,11 +14,14 @@ function ExercicioPaciente() {
   const [exercicioIniciado, setExercicioIniciado] = useState(null);
   const [inicio, setInicio] = useState(0);
   const [modalFeedbackAberto, setModalFeedbackAberto] = useState(false);
+  const [modalProgressoAberto, setModalProgressoAberto] = useState(false);
+
   const [completedSets, setCompletedSets] = useState(0);
+  const [completedSetsSession, setCompletedSetsSession] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('plan_exercises')
         .select('*, exercises(*)')
         .eq('id', id)
@@ -51,6 +54,7 @@ function ExercicioPaciente() {
     const newValue = completedSets + 1;
 
     setCompletedSets(newValue);
+    setCompletedSetsSession((prev) => prev + 1);
 
     if (newValue >= Number(exercicio?.sets)) {
       setModalFeedbackAberto(true);
@@ -63,6 +67,10 @@ function ExercicioPaciente() {
     setModalFeedbackAberto(false);
     navigate('/paciente/plano');
     setExercicioIniciado(false);
+  };
+
+  const handleFecharModalProgresso = () => {
+    setModalProgressoAberto(false);
   };
 
   return (
@@ -104,12 +112,32 @@ function ExercicioPaciente() {
         <button onClick={handleConcluirSerie}>Concluir série</button>
       )}
 
+      {completedSetsSession > 0 &&
+        completedSets > 0 &&
+        completedSets < Number(exercicio?.sets) && (
+          <button onClick={() => setModalProgressoAberto(true)}>
+            Guardar Progresso
+          </button>
+        )}
+
+      {modalProgressoAberto && (
+        <ModalFeedback
+          planExerciseId={exercicio?.id}
+          inicio={inicio}
+          onClose={handleFecharModalProgresso}
+          repeticoes={exercicio?.repetitions}
+          setsFeitos={completedSets}
+          totalSets={Number(exercicio?.sets)}
+        />
+      )}
+
       {modalFeedbackAberto && (
         <ModalFeedback
           planExerciseId={exercicio?.id}
           inicio={inicio}
           onClose={handleFecharModal}
           repeticoes={exercicio?.repetitions}
+          setsFeitos={completedSets}
           totalSets={Number(exercicio?.sets)}
         />
       )}
