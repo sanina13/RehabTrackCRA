@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { supabase } from '../services/supabaseClient';
 
-function ModalFeedback({ planExerciseId, inicio, onClose, repeticoes }) {
+function ModalFeedback({
+  planExerciseId,
+  inicio,
+  onClose,
+  repeticoes,
+  totalSets,
+}) {
   const [dificuldade, setDificuldade] = useState(3);
   const [notas, setNotas] = useState('');
 
@@ -28,6 +34,14 @@ function ModalFeedback({ planExerciseId, inicio, onClose, repeticoes }) {
     if (errorUpdate) {
       return;
     }
+
+    const { error: errorUpdateSets } = await supabase
+      .from('plan_exercises')
+      .update({
+        exercise_completed: true,
+        completed_sets: totalSets,
+      })
+      .eq('id', planExerciseId);
 
     onClose();
   };

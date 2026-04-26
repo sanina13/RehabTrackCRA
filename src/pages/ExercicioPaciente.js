@@ -50,18 +50,7 @@ function ExercicioPaciente() {
   const handleConcluirSerie = async () => {
     const newValue = completedSets + 1;
 
-    const { error } = await supabase
-      .from('plan_exercises')
-      .update({
-        completed_sets: newValue,
-      })
-      .eq('id', id);
-
-    if (error) {
-      return;
-    }
-
-    setCompletedSets((prev) => prev + 1);
+    setCompletedSets(newValue);
 
     if (newValue >= Number(exercicio?.sets)) {
       setModalFeedbackAberto(true);
@@ -73,6 +62,7 @@ function ExercicioPaciente() {
   const handleFecharModal = () => {
     setModalFeedbackAberto(false);
     navigate('/paciente/plano');
+    setExercicioIniciado(false);
   };
 
   return (
@@ -120,6 +110,7 @@ function ExercicioPaciente() {
           inicio={inicio}
           onClose={handleFecharModal}
           repeticoes={exercicio?.repetitions}
+          totalSets={Number(exercicio?.sets)}
         />
       )}
     </div>
