@@ -27,14 +27,6 @@ function ModalFeedback({
     if (error) {
       return;
     }
-    const { error: errorUpdate } = await supabase
-      .from('plan_exercises')
-      .update({ exercise_completed: true })
-      .eq('id', planExerciseId);
-
-    if (errorUpdate) {
-      return;
-    }
 
     const { error: errorUpdateSets } = await supabase
       .from('plan_exercises')
@@ -43,6 +35,7 @@ function ModalFeedback({
         completed_sets: setsFeitos,
       })
       .eq('id', planExerciseId);
+    if (errorUpdateSets) return;
 
     onClose();
   };
